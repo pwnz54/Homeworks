@@ -11,7 +11,7 @@ public:
 	//AbstractMatrix();
 	////AbstractMatrix(int m, int n);
 	virtual AbstractMatrix& operator+( AbstractMatrix&)=0;
-	//  virtual AbstractMatrix& operator*( AbstractMatrix&)=0;
+	virtual AbstractMatrix& operator*( AbstractMatrix&)=0;
 	virtual AbstractMatrix& operator*( int&)=0;
 	virtual AbstractMatrix& operator-( AbstractMatrix&)=0;
 	//  virtual AbstractMatrix& reverse()=0;
@@ -42,7 +42,7 @@ public: matrix()
 			data = new float [n*m];
 			for (int i(0); i < n*m; i++)
 			{
-				data[i] = 1.0*i;
+				data[i] = 1;
 			}
 		}
 		float get (int i, int j)
@@ -105,6 +105,21 @@ public: matrix()
 			}
 			return *t;
 		}
+		AbstractMatrix& operator* (AbstractMatrix& f)
+		{
+			matrix* mult = new matrix(n,f.getM());
+			for (int i(0); i< n*m; i++)
+				for (int j(0); j < f.getM()*f.getN(); j++)
+				{
+					if (i%m == j/(f.getM()))
+					{
+						 mult->data[(i/m)*f.getM() + j%f.getM()] += data[i]*f.get_(j);
+					}
+				}
+				return *mult;
+
+		}
+
 
 
 		int getN()
@@ -122,16 +137,18 @@ public: matrix()
 
 		}
 };
-int main()
-{
-	matrix S(2,2);
-	int z = 1;
-	matrix mult(2,2);
-	mult = S*z ;
-	matrix Sum (2,2);
-	Sum = S + mult;
-	cout << Sum.get(1,0)<<endl;
-	Sum.transpose();
-	cout << Sum.get(0,0);
-
-}
+//int main()
+//{
+//	matrix S(2,2);
+//	int z = 1;
+//	matrix mult(2,2);
+//	mult = S*z ;
+//	matrix Sum (2,2);
+//	Sum = S + mult;
+//	cout << Sum.get(1,1)<<endl;
+//	Sum.transpose();
+//	cout << Sum.get(1,1);
+//	Sum = S*mult;
+//	cout << Sum.get(1,0);
+//
+//}
