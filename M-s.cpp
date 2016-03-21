@@ -17,7 +17,7 @@ public:
 	//  virtual AbstractMatrix& reverse()=0;
 	virtual AbstractMatrix& transpose()=0;
 	//  virtual float determinant()=0;
-	//  virtual ostream& print(ostream& o)=0;
+	virtual ostream& print(ostream& o)=0;
 	//  virtual istream& read(istream& o)=0;
 	virtual void set(int i, int j, float data)=0;
 	virtual float get(int i, int j)=0;
@@ -42,7 +42,7 @@ public: matrix()
 			data = new float [n*m];
 			for (int i(0); i < n*m; i++)
 			{
-				data[i] = 1;
+				data[i] = i;
 			}
 		}
 		float get (int i, int j)
@@ -119,9 +119,6 @@ public: matrix()
 				return *mult;
 
 		}
-
-
-
 		int getN()
 		{ return n;}
 		int getM()
@@ -134,21 +131,27 @@ public: matrix()
 				p->data[i/m + m*(i%m)] = data[i];
 			}
 			return *p;
-
+		}
+		ostream& print( ostream& o)
+		{
+			for (int i(0); i < n*m; i++)
+			{	
+				if(i%n == 0)
+				{
+					o<<endl;
+				}
+				o<<'\t'<<data[i];
+			}
+			o<<endl;
+			return o;
 		}
 };
-//int main()
-//{
-//	matrix S(2,2);
-//	int z = 1;
-//	matrix mult(2,2);
-//	mult = S*z ;
-//	matrix Sum (2,2);
-//	Sum = S + mult;
-//	cout << Sum.get(1,1)<<endl;
-//	Sum.transpose();
-//	cout << Sum.get(1,1);
-//	Sum = S*mult;
-//	cout << Sum.get(1,0);
-//
-//}
+int main()
+{
+	matrix S(3,3);
+	S.print(cout);
+	matrix Q(3,3);
+	matrix M (3,3);
+	M = S*Q;
+	M.print(cout);
+}
