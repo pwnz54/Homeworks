@@ -16,7 +16,7 @@ public:
 	virtual AbstractMatrix& operator-( AbstractMatrix&)=0;
 	//  virtual AbstractMatrix& reverse()=0;
 	virtual AbstractMatrix& transpose()=0;
-	//  virtual float determinant()=0;
+	virtual float determinant()=0;
 	virtual ostream& print(ostream& o)=0;
 	//  virtual istream& read(istream& o)=0;
 	virtual void set(int i, int j, float data)=0;
@@ -42,7 +42,7 @@ public: matrix()
 			data = new float [n*m];
 			for (int i(0); i < n*m; i++)
 			{
-				data[i] = i;
+				data[i] = i*i;
 			}
 		}
 		float get (int i, int j)
@@ -145,13 +145,27 @@ public: matrix()
 			o<<endl;
 			return o;
 		}
+		float determinant()
+		{
+			for (int i(0); i<n*n; i++)
+			{
+				if ( n==2)
+				{
+					return this->data[0]*this->data[3]-this->data[1]*this->data[2];
+				}
+				if ( n = 3 )
+				{ 
+					return this->data[0]*this->data[4]*this->data[8] + this->data[1]*this->data[5]*this->data[6]+this->data[3]*this->data[7]*this->data[2]-(this->data[2]*this->data[4]*this->data[6]+this->data[5]*this->data[7]*this->data[0]+this->data[3]*this->data[1]*this->data[8]);
+				}
+			}
+		}
 };
 int main()
 {
 	matrix S(3,3);
 	S.print(cout);
-	matrix Q(3,3);
-	matrix M (3,3);
-	M = S*Q;
-	M.print(cout);
+	cout << S.determinant();
+	
+	
+
 }
